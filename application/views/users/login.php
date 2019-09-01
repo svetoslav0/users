@@ -1,7 +1,7 @@
 <h1>Login</h1>
 <hr>
 
-<?= form_open(base_url() . 'handle_login') ?>
+<?= form_open(base_url('handle-login')) ?>
 
 <!--Email input-->
 <label for="email">Email</label>

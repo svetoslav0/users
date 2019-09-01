@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Class Users_model
+ * @property CI_DB_query_builder db
+ */
 
 class Users_model extends CI_Model
 {
@@ -15,17 +19,6 @@ class Users_model extends CI_Model
         $this->db->insert('users', $data);
     }
 
-    public function emailExists(string $email): bool
-    {
-        $this->db->select('email');
-        $this->db->from('users');
-        $this->db->where('email', $email);
-
-        $result = $this->db->get()->row();
-
-        return ($result == null) ? false : true;
-    }
-
     public function getUserByEmail(string $email)
     {
         $this->db->select('id, email, password, name, lastname');
@@ -33,5 +26,50 @@ class Users_model extends CI_Model
         $this->db->where('email', $email);
 
         return $this->db->get()->row();
+    }
+
+    public function getUserById(int $id)
+    {
+        $this->db->select('id, email, password, name AS first_name, lastname AS last_name, picture_url');
+        $this->db->from('users');
+        $this->db->where('id', $id);
+
+        return $this->db->get()->row();
+    }
+
+    public function update($userdata, $userId)
+    {
+        $this->db->set('email', $userdata->email);
+        $this->db->set('name', $userdata->first_name);
+        $this->db->set('lastname', $userdata->last_name);
+
+        $this->db->where('id', $userId);
+
+        $this->db->update('users');
+    }
+
+    public function updatePassword(string $password, int $id)
+    {
+        $this->db->set('password', $password);
+        $this->db->where('id', $id);
+        $this->db->update('users');
+    }
+
+    public function getUsersCount()
+    {
+        $this->db->select('count(*) as count');
+        $this->db->from('users');
+
+        return (int)$this->db->get()->row()->count;
+    }
+
+    public function getUsersWithOffset(int $limit, $offset = 0)
+    {
+        $this->db->select('id, email, name AS first_name, lastname AS last_name');
+        $this->db->from('users');
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+
+        return $this->db->get()->result();
     }
 }

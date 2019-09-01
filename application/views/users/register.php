@@ -2,7 +2,7 @@
 <hr>
 <br />
 
-<?= form_open(base_url() . 'handle_register') ?>
+<?= form_open(base_url('handle-register')) ?>
 
 <!-- Email input -->
 <label for="email">Email: </label>
