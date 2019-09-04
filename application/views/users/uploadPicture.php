@@ -1,6 +1,6 @@
 <?php
 
-/** @var string $error */
+/** @var array $errors */
 
 $upload = [
     'name' => 'filename'
@@ -31,20 +31,22 @@ $submit = [
 <br />
 
 <h3>Select picture to upload:</h3>
-<?= form_open_multipart('handle-upload') ?>
+<?= form_open_multipart(base_url('handle-upload')) ?>
 
 <?= form_upload($upload) ?><br />
 <?= form_submit($submit) ?>
 
 <?= form_close() ?>
 
-<?php if ($error): ?>
+<?php
+if ($errors):
+    foreach ($errors as $error): ?>
 
-<div>
-    <?= $error ?>
-</div>
+    <div><?= $error ?></div>
 
-<?php endif; ?>
+<?php
+    endforeach;
+endif; ?>
 
 </body>
 </html>

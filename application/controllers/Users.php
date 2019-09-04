@@ -15,6 +15,9 @@ class Users extends CI_Controller
     const ALLOWED_IMAGE_PREFIX = 'image/';
     const MAX_UPLOAD_IMAGE_SIZE = 1.8 * 1024 * 1024; // 1.8 mb
     const UPLOAD_IMAGE_DESTINATION = 'application\public\images\\';
+    const UPLOAD_IMAGE_TOO_BIG_MESSAGE = 'The image you are trying to upload is too big. The maximum size is ' . self::MAX_UPLOAD_IMAGE_SIZE / 1024 / 1024 . 'MB';
+    const UPLOAD_IMAGE_NO_FILE_SEND_MESSAGE = 'No file was send.';
+    const UPLOAD_IMAGE_BAD_FILE_TYPE_MESSAGE = 'It seems the file you are trying to upload is not an image. Please try again.';
 
     public function login()
     {
@@ -270,7 +273,7 @@ class Users extends CI_Controller
             redirect(base_url('login'));
         }
 
-        $data['error'] = '';
+        $data['errors'] = '';
 
         $this->load->view('users/uploadPicture', $data);
     }
@@ -282,22 +285,31 @@ class Users extends CI_Controller
         }
 
         $tmpName = $_FILES['filename']['tmp_name'];
-        $type =$_FILES['filename']['type'];
+        $type = $_FILES['filename']['type'];
         $size = $_FILES['filename']['size'];
 
         $errors = [];
-        if (strpos($type, self::ALLOWED_IMAGE_PREFIX) !== 0) {
-            $errors[] = 'Invalid image type!';
-            throw new Exception('Image type is invalid!');
-        }
 
-        if ($size > self::MAX_UPLOAD_IMAGE_SIZE) {
-            $errors[] = 'Image is too big, the maximum allowed size is ' . self::MAX_UPLOAD_IMAGE_SIZE;
-            throw new Exception('Image is too big!');
+        $globalError = $_FILES['filename']['error'];
+        if ($globalError) {
+            if ($globalError == UPLOAD_ERR_INI_SIZE || $globalError == UPLOAD_ERR_FORM_SIZE) {
+                $errors[] = self::UPLOAD_IMAGE_TOO_BIG_MESSAGE;
+            } elseif ($globalError == UPLOAD_ERR_NO_FILE) {
+                $errors[] = self::UPLOAD_IMAGE_NO_FILE_SEND_MESSAGE;
+            }
+        } else {
+            if ($size > self::MAX_UPLOAD_IMAGE_SIZE) {
+                $errors[] = self::UPLOAD_IMAGE_TOO_BIG_MESSAGE;
+            }
+
+            if (strpos($type, self::ALLOWED_IMAGE_PREFIX) !== 0) {
+                $errors[] = self::UPLOAD_IMAGE_BAD_FILE_TYPE_MESSAGE;
+            }
         }
 
         if ($errors) {
-            var_dump($errors);
+            $data['errors'] = $errors;
+            $this->load->view('users/uploadPicture', $data);
         } else {
             $imageName = uniqid('profile_') . '.' . explode('/', $type)[1];
             $filePath = FCPATH . self::UPLOAD_IMAGE_DESTINATION . $imageName;
@@ -307,7 +319,6 @@ class Users extends CI_Controller
                 $filePath
             )) {
                 $errors[] = 'An error appeared while uploading your picture. Please try again or contact us.';
-                throw new Exception('Some other appeared... :/');
             } else {
                 $this->load->model('Users_model');
                 $this->Users_model->setProfilePicture($this->session->userdata('id'), $imageName);
