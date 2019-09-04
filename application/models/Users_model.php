@@ -72,4 +72,11 @@ class Users_model extends CI_Model
 
         return $this->db->get()->result();
     }
+
+    public function setProfilePicture(int $userId, string $filePath)
+    {
+        $this->db->set('picture_url', $filePath);
+        $this->db->where('id', $userId);
+        $this->db->update('users');
+    }
 }

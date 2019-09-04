@@ -15,7 +15,11 @@
 <?php if ($userdata->picture_url == null): ?>
     <a href="<?= base_url('upload-picture') ?>">Upload Profile Picture</a>
 <?php else: ?>
-
+    <a href="<?= base_url() . 'application\public\images\\' . $userdata->picture_url ?>">
+        <img src="<?= base_url() . 'application\public\images\\' . $userdata->picture_url ?>" alt="profile_picture" width="200px">
+    </a>
+    <br />
+    <a href="<?= base_url('upload-picture') ?>">Change Your Profile Picture</a>
 <?php endif; ?>
 <br /><br />
 

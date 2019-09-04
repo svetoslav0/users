@@ -12,6 +12,9 @@
 class Users extends CI_Controller
 {
     const USERS_PER_PAGE = 5;
+    const ALLOWED_IMAGE_PREFIX = 'image/';
+    const MAX_UPLOAD_IMAGE_SIZE = 1.8 * 1024 * 1024; // 1.8 mb
+    const UPLOAD_IMAGE_DESTINATION = 'application\public\images\\';
 
     public function login()
     {
@@ -278,12 +281,38 @@ class Users extends CI_Controller
             redirect(base_url('dashboard'));
         }
 
-        $targetDir = 'uploads/';
-        $targetFile = $targetDir . basename($_FILES['filename']['name']);
-        $imageFileType = strtolower(pathinfo($targetFile,PATHINFO_EXTENSION));
-        $check = getimagesize($_FILES["filename"]["tmp_name"] ?? '');
+        $tmpName = $_FILES['filename']['tmp_name'];
+        $type =$_FILES['filename']['type'];
+        $size = $_FILES['filename']['size'];
 
-        var_dump($check);
+        $errors = [];
+        if (strpos($type, self::ALLOWED_IMAGE_PREFIX) !== 0) {
+            $errors[] = 'Invalid image type!';
+            throw new Exception('Image type is invalid!');
+        }
+
+        if ($size > self::MAX_UPLOAD_IMAGE_SIZE) {
+            $errors[] = 'Image is too big, the maximum allowed size is ' . self::MAX_UPLOAD_IMAGE_SIZE;
+            throw new Exception('Image is too big!');
+        }
+
+        if ($errors) {
+            var_dump($errors);
+        } else {
+            $imageName = uniqid('profile_') . '.' . explode('/', $type)[1];
+            $filePath = FCPATH . self::UPLOAD_IMAGE_DESTINATION . $imageName;
+
+            if (! move_uploaded_file(
+                $tmpName,
+                $filePath
+            )) {
+                $errors[] = 'An error appeared while uploading your picture. Please try again or contact us.';
+                throw new Exception('Some other appeared... :/');
+            } else {
+                $this->load->model('Users_model');
+                $this->Users_model->setProfilePicture($this->session->userdata('id'), $imageName);
+            }
+        }
     }
 
     public function viewAll()
