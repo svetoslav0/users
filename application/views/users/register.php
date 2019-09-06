@@ -1,101 +1,149 @@
-<h1>Register</h1>
-<hr>
-<br />
+<?php
 
-<?= form_open(base_url('handle-register')) ?>
-
-<!-- Email input -->
-<label for="email">Email: </label>
-<?= form_input([
+$email = [
     'name' => 'email',
     'id' => 'email',
     'type' => 'email',
     'placeholder' => 'Email',
     'value' => set_value('email')
-]) ?>
-<br />
+];
 
-<?php if(form_error('email')): ?>
-    <div>
-        <?= form_error('email') ?>
-    </div>
-    <br />
-<?php endif; ?>
-
-<!-- Password input -->
-<label for="password">Password: </label>
-<?= form_password([
+$password = [
     'name' => 'password',
     'id' => 'password',
     'placeholder' => 'Password'
-]) ?>
-<br />
+];
 
-<?php if(form_error('password')): ?>
-    <div>
-        <?= form_error('password') ?>
-    </div>
-    <br />
-<?php endif; ?>
-
-<!-- Confirm Password input -->
-<label for="confirm">Confirm Password: </label>
-<?= form_password([
+$confirm = [
     'name' => 'confirm',
     'id' => 'confirm',
     'placeholder' => 'Confirm Password'
-]) ?>
-<br />
+];
 
-<?php if(form_error('confirm')): ?>
-    <div>
-        <?= form_error('confirm') ?>
-    </div>
-    <br />
-<?php endif; ?>
-
-<!-- First Name input -->
-<label for="first_name">First Name: </label>
-<?= form_input([
+$firstName = [
     'name' => 'first_name',
     'id' => 'first_name',
     'placeholder' => 'First Name',
     'value' => set_value('first_name')
-]) ?>
-<br />
+];
 
-<?php if(form_error('first_name')): ?>
-    <div>
-        <?= form_error('first_name') ?>
-    </div>
-    <br />
-<?php endif; ?>
-
-<!-- Last Name input -->
-<label for="last_name">Last Name: </label>
-<?= form_input([
+$lastName = [
     'name' => 'last_name',
     'id' => 'last_name',
     'placeholder' => 'Last Name',
     'value' => set_value('last_name')
-]) ?>
-<br />
+];
 
-<?php if(form_error('last_name')): ?>
-    <div>
-        <?= form_error('last_name') ?>
-    </div>
-    <br />
-<?php endif; ?>
-
-<!-- Submit button -->
-<?= form_submit([
+$submit = [
     'name' => 'register',
-    'value' => 'Register!'
-]) ?>
+    'value' => 'Register!',
+    'class' => 'btn btn-primary btn-sign'
+];
 
-<?= form_close() ?>
+?>
 
-<div>
-    You have an account? Then you can <a href="<?= base_url('login')?>">login</a>
+<div class="wrapper">
+    <div class="title">
+        <h1>Register</h1>
+    </div>
+</div>
+<hr>
+<br/>
+
+
+<div class="wrapper">
+    <div class="form-content">
+        <?= form_open(base_url('handle-register')) ?>
+
+        <div class="row">
+            <div class="col-md label">
+                <label for="email">Email: </label>
+            </div>
+            <div class="col-md">
+                <?= form_input($email) ?>
+            </div>
+        </div>
+
+        <?php if (form_error('email')): ?>
+            <div class="alert-message">
+                <?= form_error('email') ?>
+            </div>
+            <br/>
+        <?php endif; ?>
+
+
+        <div class="row">
+            <div class="col-md label">
+                <label for="password">Password: </label>
+            </div>
+            <div class="col-md">
+                <?= form_password($password) ?>
+            </div>
+        </div>
+
+        <?php if (form_error('password')): ?>
+            <div class="alert-message">
+                <?= form_error('password') ?>
+            </div>
+            <br/>
+        <?php endif; ?>
+
+
+        <div class="row">
+            <div class="col-md label">
+                <label for="confirm">Confirm Password: </label>
+            </div>
+            <div class="col-md">
+                <?= form_password($confirm) ?>
+            </div>
+        </div>
+
+        <?php if (form_error('confirm')): ?>
+            <div class="alert-message">
+                <?= form_error('confirm') ?>
+            </div>
+            <br/>
+        <?php endif; ?>
+
+        <div class="row">
+            <div class="col-md label">
+                <label for="first_name">First Name: </label>
+            </div>
+            <div class="col-md">
+                <?= form_input($firstName) ?>
+            </div>
+        </div>
+
+        <?php if (form_error('first_name')): ?>
+            <div class="alert-message">
+                <?= form_error('first_name') ?>
+            </div>
+            <br/>
+        <?php endif; ?>
+
+        <div class="row">
+            <div class="col-md label">
+                <label for="last_name">Last Name: </label>
+            </div>
+            <div class="col-md">
+                <?= form_input($lastName) ?>
+            </div>
+        </div>
+
+        <?php if (form_error('last_name')): ?>
+            <div class="alert-message">
+                <?= form_error('last_name') ?>
+            </div>
+            <br/>
+        <?php endif; ?>
+
+
+        <?= form_submit($submit) ?>
+
+        <?= form_close() ?>
+
+        <div>
+            You have an account? Then you can <a href="<?= base_url('login') ?>">login</a>
+        </div>
+    </div>
 </div>

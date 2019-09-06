@@ -25,7 +25,10 @@ class Users extends CI_Controller
             redirect(base_url('dashboard'));
         }
 
-        $this->load->view('users/login');
+        $this->load->view('partials/templateNotLogged', [
+            'view' => 'users/login',
+            'title' => 'Login'
+        ]);
     }
 
     public function register()
@@ -34,7 +37,10 @@ class Users extends CI_Controller
             redirect(base_url('dashboard'));
         }
 
-        $this->load->view('users/register');
+        $this->load->view('partials/templateNotLogged', [
+            'view' => 'users/register',
+            'title' => 'Register'
+        ]);
     }
 
     public function handleLogin()
@@ -88,7 +94,10 @@ class Users extends CI_Controller
 
             redirect(base_url() . 'login');
         } else {
-            $this->load->view('users/register');
+            $this->load->view('partials/templateNotLogged', [
+                'view' => 'users/register',
+                'title' => 'Register'
+            ]);
         }
     }
 
@@ -126,7 +135,11 @@ class Users extends CI_Controller
 
         $data['userdata'] = $this->Users_model->getUserById($this->session->userdata('id'));
 
-        $this->load->view('users/dashboard', $data);
+        $this->load->view('partials/template', array_merge($data, [
+            'view' => 'users/dashboard',
+            'title' => 'Dashboard',
+            'activeNavLink' => 'dashboard'
+        ]));
     }
 
     public function editProfile()
@@ -141,7 +154,11 @@ class Users extends CI_Controller
             $this->session->userdata('id')
         );
 
-        $this->load->view('users/editProfile', $data);
+        $this->load->view('partials/template', array_merge($data, [
+            'view' => 'users/editProfile',
+            'title' => 'Edit Profile',
+            'activeNavLink' => 'editProfile'
+        ]));
     }
 
     public function handleEdit()
@@ -174,7 +191,11 @@ class Users extends CI_Controller
 
             redirect(base_url('dashboard'));
         } else {
-            $this->load->view('users/editProfile', $data);
+            $this->load->view('partials/template', array_merge($data, [
+                'view' => 'users/editProfile',
+                'title' => 'Edit Profile',
+                'activeNavLink' => 'editProfile'
+            ]));
         }
     }
 
@@ -209,7 +230,11 @@ class Users extends CI_Controller
             redirect(base_url('login'));
         }
 
-        $this->load->view('users/changePassword');
+        $this->load->view('partials/template', [
+            'view' => 'users/changePassword',
+            'title' => 'Change Password',
+            'activeNavLink' => ''
+        ]);
     }
 
     public function handleChangePassword()
@@ -237,7 +262,11 @@ class Users extends CI_Controller
             $this->session->set_flashdata('success', 'Password was changed successfully.');
             redirect(base_url('dashboard'));
         } else {
-            $this->load->view('users/changePassword');
+            $this->load->view('partials/template', [
+               'view' => 'changePassword',
+               'title' => 'Change Password',
+               'activeNavLink' => ''
+            ]);
         }
     }
 
@@ -275,7 +304,11 @@ class Users extends CI_Controller
 
         $data['errors'] = '';
 
-        $this->load->view('users/uploadPicture', $data);
+        $this->load->view('partials/template', array_merge($data, [
+            'view' => 'users/uploadPicture',
+            'title' => 'Upload Profile Picture',
+            'activeNavLink' => ''
+        ]));
     }
 
     public function handlePictureUpload()
@@ -309,7 +342,11 @@ class Users extends CI_Controller
 
         if ($errors) {
             $data['errors'] = $errors;
-            $this->load->view('users/uploadPicture', $data);
+            $this->load->view('partials/template', array_merge($data, [
+                'view' => 'users/uploadPicture',
+                'title' => 'Upload Profile Picture',
+                'activeNavLink' => ''
+            ]));
         } else {
             $imageName = uniqid('profile_') . '.' . explode('/', $type)[1];
             $filePath = FCPATH . self::UPLOAD_IMAGE_DESTINATION . $imageName;
@@ -322,6 +359,7 @@ class Users extends CI_Controller
             } else {
                 $this->load->model('Users_model');
                 $this->Users_model->setProfilePicture($this->session->userdata('id'), $imageName);
+                redirect(base_url('dashboard'));
             }
         }
     }
@@ -339,11 +377,15 @@ class Users extends CI_Controller
             'per_page' => self::USERS_PER_PAGE,
             'full_tag_open' => '<p>',
             'full_tag_close' => '</p>',
-            'next_link' => ' &gt; ',
-            'prev_link' => ' &lt; ',
-            'cur_tag_open' => ' <strong>',
-            'cur_tag_close' => '</strong> ',
-            'num_tag_open' => '<span>',
+            'first_tag_open' => '<span class="pagination_btn">',
+            'first_tag_close' => '</span>',
+            'last_tag_open' => '<span class="pagination_btn">',
+            'last_tag_close' => '</span>',
+            'next_link' => '<span class="pagination_btn">&gt;</span>',
+            'prev_link' => '<span class="pagination_btn">&lt;</span>',
+            'cur_tag_open' => '<strong class="pagination_btn">',
+            'cur_tag_close' => '</strong>',
+            'num_tag_open' => '<span class="pagination_btn">',
             'num_tag_close' => '</span>',
             'page_query_string' => true,
             'query_string_segment' => 'page'
@@ -356,6 +398,10 @@ class Users extends CI_Controller
         $data['users'] = $this->Users_model->getUsersWithOffset(self::USERS_PER_PAGE, $offset);
         $data['links'] = $this->pagination->create_links();
 
-        $this->load->view('users/allUsers', $data);
+        $this->load->view('partials/template', array_merge($data, [
+            'view' => 'users/allUsers',
+            'title' => 'All Users',
+            'activeNavLink' => 'allUsers'
+        ]));
     }
 }

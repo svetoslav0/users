@@ -1,7 +1,7 @@
 <?php
 /**
  * @var string $links
- * @var array users
+ * @var array $users
  */
 ?>
 <!doctype html>
@@ -15,19 +15,19 @@
 </head>
 <body>
 
-<h1>View All Users</h1>
-<hr>
-<br />
-<a href="<?= base_url('dashboard') ?>"><< Back To Dashboard</a><br />
-<br />
+<div class="wrapper">
+    <h2>View All Users</h2>
+    <hr>
+    <br />
+</div>
 
-<table border="1">
-    <thead>
+<table class="table table-striped">
+    <thead class="thead-dark">
         <tr>
-            <th>ID</th>
-            <th>Email</th>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th scope="col">ID</th>
+            <th scope="col">Email</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
         </tr>
     </thead>
     <tbody>
@@ -42,7 +42,9 @@
     </tbody>
 </table>
 
-<?= $links ?>
+<div class="wrapper">
+    <?= $links ?>
+</div>
 
 </body>
 </html>

@@ -4,67 +4,97 @@
 $email = [
     'type' => 'email',
     'value' => $user->email ?? set_value('email'),
-    'name' => 'email'
+    'name' => 'email',
+    'id' => 'email',
+    'placeholder' => 'Email'
 ];
 
 $firstName = [
     'value' => $user->first_name ?? set_value('first_name'),
     'name' => 'first_name',
+    'id' => 'first_name',
+    'placeholder' => 'First Name'
 ];
 
 $lastName = [
     'value' => $user->last_name ?? set_value('last_name'),
-    'name' => 'last_name'
+    'name' => 'last_name',
+    'id' => 'last_name',
+    'placeholder' => 'Last Name'
 ];
 
 $submit = [
     'value' => 'Edit',
-    'name' => 'edit'
-]
+    'name' => 'edit',
+    'class' => 'btn btn-primary btn-sign'
+];
 
 ?>
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Edit Your Profile</h1>
-    <hr>
-    <br />
-    <a href="<?= base_url('dashboard') ?>"><< Back to dashboard</a><br />
-    <br />
 
-    <?= form_open(base_url('handle-edit')) ?>
-    Email: <?= form_input($email) ?><br />
+<div class="wrapper">
+    <div class="form-content">
+        <h2>Edit Your Profile</h2>
+        <hr>
+        <br/>
 
-    <?php if (form_error('email')): ?>
-        <div>
-            <?= form_error('email') ?>
+
+        <?= form_open(base_url('handle-edit')) ?>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md label">
+                    <label for="email">
+                        Email:
+                    </label>
+                </div>
+                <div class="col-md">
+                    <?= form_input($email) ?>
+                </div>
+            </div>
+
+            <?php if (form_error('email')): ?>
+                <div class="alert-message">
+                    <?= form_error('email') ?>
+                </div>
+            <?php endif; ?>
+
+            <div class="row">
+                <div class="col-md label">
+                    <label for="first_name">
+                        First Name:
+                    </label>
+                </div>
+                <div class="col-md">
+                    <?= form_input($firstName) ?>
+                </div>
+            </div>
+
+            <?php if (form_error('first_name')): ?>
+                <div class="alert-message">
+                    <?= form_error('first_name') ?>
+                </div>
+            <?php endif; ?>
+
+            <div class="row">
+                <div class="col-md label">
+                    <label for="last_name">
+                        Last Name:
+                    </label>
+                </div>
+                <div class="col-md">
+                    <?= form_input($lastName) ?>
+                </div>
+            </div>
+
+            <?php if (form_error('last_name')): ?>
+                <div class=alert-message>
+                    <?= form_error('last_name') ?>
+                </div>
+            <?php endif; ?>
+
+            <?= form_submit($submit) ?>
+            <?= form_close() ?>
         </div>
-    <?php endif; ?>
 
-    First Name: <?= form_input($firstName) ?><br >
-
-    <?php if (form_error('first_name')): ?>
-        <div>
-            <?= form_error('first_name') ?>
-        </div>
-    <?php endif; ?>
-
-    Last Name: <?= form_input($lastName) ?><br />
-
-    <?php if (form_error('last_name')): ?>
-        <div>
-            <?= form_error('last_name') ?>
-        </div>
-    <?php endif; ?>
-
-    <?= form_submit($submit) ?>
-    <?= form_close() ?>
-</body>
-</html>
+    </div>
+</div>

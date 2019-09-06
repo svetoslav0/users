@@ -1,0 +1,133 @@
+.title {
+    font-weight: bold;
+}
+
+.wrapper {
+    text-align: center;
+}
+
+.form-content {
+    display: inline-block;
+}
+
+.label {
+    text-align: left;
+}
+
+.btn-sign {
+    width: 80%;
+    margin: 20px;
+}
+
+.alert-message {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    border-radius: 5px;
+    display: inline-block;
+    margin: 10px;
+    padding: 5px;
+    height: auto;
+    font-weight: bold;
+}
+
+p {
+    margin-bottom: 0;
+}
+
+.profile-img {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.nav-btn {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.img-container {
+    width: 200px;
+    margin: auto;
+    position: relative;
+}
+
+.top-img-half {
+    float: left;
+    position: absolute;
+    left: 0;
+    top: 0;
+    text-align: center;
+    height: 50%;
+    width: 100%;
+}
+
+.hidden-top-img-half {
+    display: none;
+    border-top-left-radius: 400px;
+    border-top-right-radius: 400px;
+    height: 100%;
+    width: 100%;
+    padding-top: 40px;
+}
+
+
+.top-img-half:hover .hidden-top-img-half{
+    display: block;
+    background-color: rgba(200, 200, 200, 0.75);
+}
+
+.bottom-img-half {
+    float: left;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    text-align: center;
+    height: 50%;
+    width: 100%;
+}
+
+.hidden-bottom-img-half {
+    display: none;
+    border-bottom-left-radius: 400px;
+    border-bottom-right-radius: 400px;
+    height: 100%;
+    width: 100%;
+    padding-top: 30px;
+}
+
+.bottom-img-half:hover .hidden-bottom-img-half{
+    display: block;
+    background-color: rgba(200, 200, 200, 0.75);
+}
+
+.link-btn {
+    width: 100%;
+    margin: 5px;
+}
+
+.btn-wrapper {
+    text-align: center;
+    margin: auto;
+}
+
+table.wrapper {
+    margin: auto;
+}
+
+.custom-file {
+    width: auto;
+}
+
+.upload-label {
+    text-align: left;
+}
+
+.pagination_btn {
+    margin: 5px;
+    padding: 5px 15px;
+    border-radius: 10px;
+    border: 1px solid #6c7c85;
+    background-color: #dee2e6;
+}

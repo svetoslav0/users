@@ -3,50 +3,44 @@
 /** @var array $errors */
 
 $upload = [
-    'name' => 'filename'
+    'name' => 'filename',
+    'class' => 'custom-file-input',
+    'id' => 'customId',
+    'required' => 'required'
 ];
 
 $submit = [
     'name' => 'upload',
-    'value' => 'Upload'
+    'value' => 'Upload',
+    'class' => 'btn btn-info'
 ];
 
 ?>
 
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Upload Your Profile Picture</title>
-</head>
-<body>
-
-<h1>Upload Profile Picture</h1>
 <hr>
 <br />
-<a href="<?= base_url('dashboard') ?>"><< Back To Dashboard</a><br />
-<br />
 
-<h3>Select picture to upload:</h3>
-<?= form_open_multipart(base_url('handle-upload')) ?>
+<div class="wrapper">
+    <h3>Select picture to upload:</h3>
+    <?= form_open_multipart(base_url('handle-upload'), ['class' => 'was-validated']) ?>
 
-<?= form_upload($upload) ?><br />
-<?= form_submit($submit) ?>
+    <div class="custom-file">
+        <?= form_upload($upload) ?><br />
+        <label for="customFile" class="custom-file-label upload-label">Choose file</label>
+    </div>
+    <?= form_submit($submit) ?>
 
-<?= form_close() ?>
+    <?= form_close() ?>
 
-<?php
-if ($errors):
-    foreach ($errors as $error): ?>
+    <?php
+    if ($errors):
+        foreach ($errors as $error): ?>
 
-    <div><?= $error ?></div>
+            <div class="alert-message">
+                <?= $error ?>
+            </div>
 
-<?php
-    endforeach;
-endif; ?>
-
-</body>
-</html>
+        <?php
+        endforeach;
+    endif; ?>
+</div>
