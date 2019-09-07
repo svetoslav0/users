@@ -221,6 +221,7 @@ class Users extends CI_Controller
         }
 
         // Reaching this point means that there is user with this email
+        $this->form_validation->set_message('check_email_uniqueness', 'The new email must be unique.');
         return false;
     }
 
@@ -263,7 +264,7 @@ class Users extends CI_Controller
             redirect(base_url('dashboard'));
         } else {
             $this->load->view('partials/template', [
-               'view' => 'changePassword',
+               'view' => 'users/changePassword',
                'title' => 'Change Password',
                'activeNavLink' => ''
             ]);
@@ -403,5 +404,13 @@ class Users extends CI_Controller
             'title' => 'All Users',
             'activeNavLink' => 'allUsers'
         ]));
+    }
+
+    public function notFound()
+    {
+        $this->load->view('partials/templateNotLogged', [
+            'view' => 'errors/notFound',
+            'title' => 'Not Found'
+        ]);
     }
 }
