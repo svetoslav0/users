@@ -2,6 +2,9 @@
 /**
  * @var string $links
  * @var array $users
+ * @var string $orderByEmailLink
+ * @var string $orderByNameLink
+ * @var string $orderByLastNameLink
  */
 ?>
 
@@ -16,9 +19,15 @@
     <thead class="thead-dark">
         <tr>
             <th scope="col">ID</th>
-            <th scope="col">Email</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
+            <th scope="col">
+                <a href="<?= $orderByEmailLink ?>">Email</a>
+            </th>
+            <th scope="col">
+                <a href="<?= $orderByNameLink ?>">First Name</a>
+            </th>
+            <th scope="col">
+                <a href="<?= $orderByLastNameLink ?>">Last Name</a>
+            </th>
         </tr>
     </thead>
     <tbody>

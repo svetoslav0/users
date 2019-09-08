@@ -372,8 +372,30 @@ class Users extends CI_Controller
 
         $usersCount = $this->Users_model->getUsersCount();
 
-        $config = [
-            'base_url' => base_url('view-all-users'),
+        $page = $this->input->get('page');
+
+        if ($page != null) { // if page is set
+            $requestUrl = base_url('view-all-users') . '?page=' . $page;
+
+            $data['orderByEmailLink'] = $requestUrl . '&order=email';
+            $data['orderByNameLink'] = $requestUrl . '&order=name';
+            $data['orderByLastNameLink'] = $requestUrl . '&order=lastname';
+        } else {
+            $requestUrl = base_url('view-all-users');
+
+            $data['orderByEmailLink'] = $requestUrl . '?order=email';
+            $data['orderByNameLink'] = $requestUrl . '?order=name';
+            $data['orderByLastNameLink'] = $requestUrl . '?order=lastname';
+        }
+
+        $order = $this->input->get('order') ?? null;
+
+        if ($order != 'email' && $order != 'name' && $order != 'lastname') {
+            $order = '';
+        }
+
+        $paginationConfig = [
+            'base_url' => ($order) ? base_url("view-all-users?order=$order") : base_url('view-all-users '),
             'total_rows' => $usersCount,
             'per_page' => self::USERS_PER_PAGE,
             'full_tag_open' => '<p>',
@@ -392,11 +414,11 @@ class Users extends CI_Controller
             'query_string_segment' => 'page'
         ];
 
-        $this->pagination->initialize($config);
+        $this->pagination->initialize($paginationConfig);
 
         $offset = $this->input->get('page');
 
-        $data['users'] = $this->Users_model->getUsersWithOffset(self::USERS_PER_PAGE, $offset);
+        $data['users'] = $this->Users_model->getUsersWithOffset(self::USERS_PER_PAGE, $offset, $order);
         $data['links'] = $this->pagination->create_links();
 
         $this->load->view('partials/template', array_merge($data, [

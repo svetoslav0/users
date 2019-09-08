@@ -63,12 +63,13 @@ class Users_model extends CI_Model
         return (int)$this->db->get()->row()->count;
     }
 
-    public function getUsersWithOffset(int $limit, $offset = 0)
+    public function getUsersWithOffset(int $limit, $offset = 0, $order = 'id')
     {
         $this->db->select('id, email, name AS first_name, lastname AS last_name');
         $this->db->from('users');
         $this->db->limit($limit);
         $this->db->offset($offset);
+        $this->db->order_by($order);
 
         return $this->db->get()->result();
     }
